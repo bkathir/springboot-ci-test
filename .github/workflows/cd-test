@@ -15,7 +15,8 @@ on:
 jobs:
   deploy:
     name: Deploy to ${{ matrix.name }}
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: Self-hosted
 
     strategy:
       fail-fast: false
