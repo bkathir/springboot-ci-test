@@ -1,0 +1,57 @@
+name: Deploy Wishlist Service
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: Application context name
+        required: true
+        default: wishlistservice
+      max_parallel:
+        description: Number of servers to deploy in parallel
+        required: true
+        default: '2'
+
+jobs:
+  deploy:
+    name: Deploy to ${{ matrix.name }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJson(github.event.inputs.max_parallel) }}
+      matrix:
+        include:
+          - name: jetty1
+            host: 192.168.1.23
+            user: vboxuser
+          - name: jetty2
+            host: 192.168.1.24
+            user: vboxuser
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH key
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.JETTY_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy wishlistservice WAR
+        shell: bash
+        env:
+          TARGET_HOST: ${{ matrix.host }}
+          TARGET_USER: ${{ matrix.user }}
+          APP_NAME: ${{ github.event.inputs.app_name }}
+          WAR_SRC: files/wishlistservice.war
+          JETTY_BASE: /opt/jetty-base
+          JETTY_USER: jetty
+          JETTY_GROUP: jetty
+          JETTY_SERVICE: jetty
+          JETTY_PORT: '8080'
+          HEALTH_PATH: /wishlistservice/actuator/health
+        run: |
+          ./scripts/deploy-wishlistservice.sh
