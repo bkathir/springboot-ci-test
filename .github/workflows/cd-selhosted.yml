@@ -47,7 +47,8 @@ jobs:
           TARGET_HOST: ${{ matrix.host }}
           TARGET_USER: ${{ matrix.user }}
           APP_NAME: ${{ github.event.inputs.app_name }}
-          WAR_SRC: files/wishlistservice.war
+          # WAR_SRC: files/wishlistservice.war
+          WAR_SRC: /Users/kathiravan/Kathir/Nook/Docs/DevOps/CICD/Git/Script_Deployment/wishlist-cd-github-actions/files/wishlistservice.war
           JETTY_BASE: /opt/jetty-base
           JETTY_USER: jetty
           JETTY_GROUP: jetty
