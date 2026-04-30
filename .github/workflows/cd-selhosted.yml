@@ -56,4 +56,4 @@ jobs:
           HEALTH_PATH: /wishlistservice/actuator/health
         run: |
           # ./scripts/deploy-wishlistservice.sh
-          /Users/kathiravan/Kathir/Nook/Docs/DevOps/CICD/Git/Script_Deployment/wishlist-cd-github-action/scripts/deploy-wishlistservice.sh
+          /Users/kathiravan/Kathir/Nook/Docs/DevOps/CICD/Git/Script_Deployment/wishlist-cd-github-actions/scripts/deploy-wishlistservice.sh
